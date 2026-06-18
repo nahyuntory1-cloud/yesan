@@ -1,0 +1,1500 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026 학교회계 예산편성 기본지침</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'맑은 고딕','Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:#f4f6f9;color:#222;display:flex;min-height:100vh}
+
+/* SIDEBAR */
+#sidebar{width:220px;min-height:100vh;background:#1b2a40;color:#cdd8e8;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;z-index:100;overflow-y:auto}
+#sidebar .logo{padding:22px 18px 14px;border-bottom:1px solid #263850}
+#sidebar .logo h1{font-size:12.5px;font-weight:700;color:#fff;line-height:1.55}
+#sidebar .logo p{font-size:10.5px;color:#6a8caf;margin-top:4px}
+#sidebar nav{padding:10px 0;flex:1}
+#sidebar nav .sl{font-size:9.5px;color:#4a6a90;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:12px 18px 4px}
+#sidebar nav a{display:flex;align-items:center;gap:9px;padding:8px 18px;font-size:12px;color:#9ab4ce;text-decoration:none;cursor:pointer;transition:all .15s;border-left:3px solid transparent;line-height:1.3}
+#sidebar nav a:hover{background:#223249;color:#fff}
+#sidebar nav a.on{background:#223249;color:#fff;border-left-color:#4e9af1;font-weight:600}
+#sidebar nav a .ico{font-size:13px;min-width:17px;text-align:center}
+
+/* MAIN */
+#main{margin-left:220px;flex:1;padding:28px 32px;max-width:980px}
+.page{display:none}.page.on{display:block}
+.pg-header{margin-bottom:24px}
+.pg-header .badge{display:inline-block;background:#e8f0fe;color:#1a56db;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px}
+.pg-header h2{font-size:21px;font-weight:700;color:#111;margin-bottom:5px}
+.pg-header p{font-size:13px;color:#556;line-height:1.6}
+
+/* CARDS */
+.card{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:22px;margin-bottom:18px}
+.card h3{font-size:14.5px;font-weight:700;color:#1a2d4e;margin-bottom:12px;padding-bottom:9px;border-bottom:2px solid #e8f0fe}
+.card h4{font-size:12.5px;font-weight:700;color:#2563eb;margin:12px 0 6px}
+.card p{font-size:12.5px;color:#444;line-height:1.75;margin-bottom:7px}
+.card ul{padding-left:16px}
+.card ul li{font-size:12.5px;color:#444;line-height:1.8;margin-bottom:1px}
+.note{background:#f0f7ff;border-left:3px solid #4e9af1;padding:9px 13px;border-radius:0 6px 6px 0;font-size:12px;color:#1e4080;margin-top:9px;line-height:1.7}
+.warn{background:#fff8e6;border-left:3px solid #f59e0b;padding:9px 13px;border-radius:0 6px 6px 0;font-size:12px;color:#7c4a00;margin-top:9px;line-height:1.7}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px}
+.mc{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:16px}
+.mc h4{font-size:12.5px;font-weight:700;color:#1a2d4e;margin-bottom:7px}
+.mc p,.mc ul li{font-size:12px;color:#556;line-height:1.7}
+.mc ul{padding-left:15px}
+
+/* CHANGE CARDS */
+.chg-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-top:4px}
+.chg{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:13px 15px;border-top:3px solid #4e9af1}
+.chg .pg{font-size:10px;color:#7a9abf;font-weight:700;margin-bottom:3px}
+.chg .ttl{font-size:12.5px;font-weight:700;color:#1a2d4e;margin-bottom:5px}
+.chg .txt{font-size:11.5px;color:#555;line-height:1.65}
+.chg.new{border-top-color:#10b981}.chg.mod{border-top-color:#f59e0b}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.tbl th{background:#f0f5ff;color:#1a2d4e;font-weight:700;padding:8px 11px;text-align:left;border:1px solid #dde6f5}
+#page-bimok .tbl th{text-align:center}
+#page-bimok .tbl td{text-align:center}
+.tbl td{padding:8px 11px;border:1px solid #e8edf5;vertical-align:middle;line-height:1.65;color:#333;text-align:center}
+.tbl tr:nth-child(even) td{background:#fafbfd}
+
+/* TIMELINE */
+.tl{list-style:none;padding:0;position:relative}
+.tl::before{content:'';position:absolute;left:17px;top:0;bottom:0;width:2px;background:#dde6f5}
+.tl li{display:flex;gap:13px;margin-bottom:14px;position:relative}
+.tl li .dot{width:34px;height:34px;border-radius:50%;background:#4e9af1;color:#fff;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;text-align:center;line-height:1.2}
+.tl li .bdy{background:#fff;border-radius:8px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:11px 15px;flex:1}
+.tl li .bdy .date{font-size:10.5px;color:#7a9abf;font-weight:700;margin-bottom:2px}
+.tl li .bdy .ttl{font-size:13px;font-weight:700;color:#1a2d4e;margin-bottom:3px}
+.tl li .bdy .desc{font-size:12px;color:#556;line-height:1.65}
+
+/* ACCORDION */
+.acc{border:1px solid #dde6f5;border-radius:8px;margin-bottom:7px;overflow:hidden}
+.acc-hd{background:#f8faff;padding:12px 16px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-size:13px;font-weight:600;color:#1a2d4e;user-select:none}
+.acc-hd:hover{background:#f0f5ff}
+.acc-hd .arr{font-size:10.5px;color:#7a9abf;transition:transform .2s}
+.acc-hd.open .arr{transform:rotate(180deg)}
+.acc-body{display:none;padding:14px 16px;background:#fff;font-size:12.5px;color:#444;line-height:1.75}
+.acc-body.open{display:block}
+.acc-body p{margin-bottom:7px}
+.acc-body ul{padding-left:16px;margin-bottom:7px}
+.acc-body ul li{line-height:1.8;margin-bottom:2px}
+
+/* CHAPTER DIVIDERS in combined page */
+.ch-block{margin-bottom:36px}
+.ch-divider{display:flex;align-items:center;gap:14px;margin-bottom:18px;margin-top:4px}
+.ch-divider .num{background:#1b2a40;color:#fff;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:700;white-space:nowrap}
+.ch-divider h2{font-size:17px;font-weight:700;color:#1a2d4e}
+.ch-divider hr{flex:1;border:none;border-top:2px solid #e8f0fe}
+
+/* INFOGRAPHIC ITEMS */
+.infotile{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:16px;text-align:center}
+.infotile .big{font-size:26px;font-weight:800;color:#4e9af1;margin-bottom:3px}
+.infotile .sub{font-size:11.5px;color:#7a9abf;font-weight:600;margin-bottom:4px}
+.infotile .lbl{font-size:12px;color:#334;line-height:1.5}
+.rate-bar{background:#e8f0fe;border-radius:6px;height:8px;margin:6px 0 2px;overflow:hidden}
+.rate-fill{background:#4e9af1;border-radius:6px;height:8px}
+.site-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.site-card{background:#f8faff;border-radius:8px;padding:12px 14px;border:1px solid #dde6f5;display:block;text-decoration:none;transition:all .15s;cursor:pointer}
+.site-card:hover{background:#e8f0fe;border-color:#4e9af1;transform:translateY(-1px);box-shadow:0 3px 10px rgba(78,154,241,.15)}
+.site-card .name{font-size:12.5px;font-weight:700;color:#1a2d4e;margin-bottom:3px}
+.site-card .url{font-size:11px;color:#4e9af1;margin-bottom:4px;word-break:break-all}
+.site-card .desc{font-size:11.5px;color:#556;line-height:1.55}
+.law-list{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.law-item{background:#f8faff;border-radius:6px;padding:8px 12px;border-left:3px solid #4e9af1}
+.law-item .ministry{font-size:10px;color:#7a9abf;font-weight:700}
+.law-item .lname{font-size:12px;color:#1a2d4e;font-weight:600;line-height:1.4;margin-top:1px}
+
+/* FORM */
+.fs{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:22px;margin-bottom:18px}
+.fs h3{font-size:14.5px;font-weight:700;color:#1a2d4e;margin-bottom:14px;padding-bottom:9px;border-bottom:2px solid #e8f0fe}
+.type-btn,.round-btn{padding:7px 16px;border:2px solid #dde6f5;border-radius:6px;background:#fff;font-size:12.5px;font-family:inherit;cursor:pointer;color:#556;transition:all .15s;font-weight:600}
+.type-btn:hover,.round-btn:hover{border-color:#4e9af1;color:#1a56db}
+.type-btn.on{background:#4e9af1;border-color:#4e9af1;color:#fff}
+.round-btn{font-size:12px;padding:5px 12px}
+.round-btn.on{background:#10b981;border-color:#10b981;color:#fff}
+#rounds{display:none;gap:7px;flex-wrap:wrap}
+#rounds.show{display:flex}
+.type-row{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:4px}
+.ig label{display:flex;flex-direction:column;gap:4px}
+.ig label span{font-size:11.5px;color:#7a9abf;font-weight:700}
+.ig input,.ig select{border:1.5px solid #dde6f5;border-radius:6px;padding:7px 10px;font-size:12.5px;font-family:inherit;outline:none;transition:border .15s}
+.ig input:focus,.ig select:focus{border-color:#4e9af1}
+.btbl{width:100%;border-collapse:collapse;font-size:12px}
+.btbl th{background:#1b2a40;color:#fff;padding:8px 9px;text-align:center;font-weight:600}
+.btbl td{padding:6px 7px;border:1px solid #dde6f5;vertical-align:middle}
+.btbl input[type=text],.btbl input[type=number]{width:100%;border:1px solid #dde6f5;border-radius:4px;padding:4px 6px;font-size:11.5px;font-family:inherit;outline:none}
+.btbl input:focus{border-color:#4e9af1}
+.nc{text-align:right;font-weight:600;color:#1a2d4e}
+.btbl tr.tr-total td{background:#f0f5ff;font-weight:700;color:#1a2d4e}
+.btn-row{display:flex;gap:9px;margin-top:12px;flex-wrap:wrap}
+.btn{padding:8px 18px;border:none;border-radius:7px;font-size:12.5px;font-family:inherit;cursor:pointer;font-weight:600;transition:all .15s}
+.btn-add{background:#f0f5ff;color:#1a56db;border:1.5px solid #c3d8f5}.btn-add:hover{background:#dbeafe}
+.btn-reset{background:#f5f5f5;color:#555;border:1.5px solid #ddd}
+.btn-xl{background:#10b981;color:#fff}.btn-xl:hover{background:#059669}
+.btn-doc{background:#4e9af1;color:#fff}.btn-doc:hover{background:#2563eb}
+.total-display{background:#1b2a40;color:#fff;border-radius:8px;padding:13px 18px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+.total-display .lbl{font-size:12.5px;color:#9ab4ce}
+.total-display .amt{font-size:21px;font-weight:700}
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <div class="logo">
+    <h1>2026학년도<br>학교회계 예산편성</h1>
+    <p>경기도교육청 기본지침</p>
+  </div>
+  <nav>
+    <div class="sl">주요 내용</div>
+    <a onclick="go('changes',this)" class="on"><span class="ico">🔔</span>주요 변경사항</a>
+    <a onclick="go('chall',this)"><span class="ico">📖</span>1~5장 전체 보기</a>
+    <a onclick="go('bimok',this)"><span class="ico">🔍</span>혼동하기 쉬운 비목</a>
+    <a onclick="go('ch6',this)"><span class="ico">📎</span>6장. 참고자료</a>
+    <div class="sl" style="margin-top:8px">서식 · 현황</div>
+    <a onclick="go('exec',this)"><span class="ico">📈</span>예산집행률 현황</a>
+    <a onclick="go('form',this)"><span class="ico">✏️</span>예산요구서 작성</a>
+  </nav>
+</div>
+
+<div id="main">
+
+<!-- ===== 주요변경사항 ===== -->
+<div id="page-changes" class="page on">
+  <div class="pg-header">
+    <div class="badge">2026년 주요 변경사항</div>
+    <h2>2025년 대비 주요 변경 내용</h2>
+    <p>2026학년도 학교회계 예산편성 기본지침의 변경·추가·신설 사항을 한눈에 확인하세요.</p>
+  </div>
+  <div class="chg-grid">
+    <div class="chg new"><div class="pg">p.20 · 신설</div><div class="ttl">협조사항 추가 (학교)</div><div class="txt">회계연도 종료(2월 말일) 후 추경 편성 금지 명시. 학교 구성원 간 소통으로 집행 잔액 최소화, 불필요한 예산 낭비 사전 예방</div></div>
+    <div class="chg mod"><div class="pg">p.30 · 변경</div><div class="ttl">성립전예산 범위 확대</div><div class="txt">기타공공지원금, 다른학교회계전입금이 성립전예산 편성 가능 재원에 추가됨</div></div>
+    <div class="chg new"><div class="pg">p.34 · 추가</div><div class="ttl">순세계잉여금 징수결정 명확화</div><div class="txt">출납폐쇄 다음날로 징수결정 시점을 명확히 규정. 예시: 2026.2.28. 마감 → 2026.3.1. 징수결정</div></div>
+    <div class="chg mod"><div class="pg">p.35 · 변경</div><div class="ttl">결산 공개 시점 변경</div><div class="txt">"심의결과 통보 후 10일 이내" → "심의 확정 후 10일 이내 학교 홈페이지 게시"로 변경</div></div>
+    <div class="chg mod"><div class="pg">p.41 · 변경</div><div class="ttl">급식비 3개 항목 분리</div><div class="txt">급식비를 ① 학생급식비 ② 우유급식비 ③ 교직원등 급식비로 세분화. 수익자부담수입 항목 정교화</div></div>
+    <div class="chg mod"><div class="pg">p.42 · 변경</div><div class="ttl">사용료 용어 정확화</div><div class="txt">"사용·수익허가" → "사용허가"로 변경. 행정재산 관련 법령 정합성 확보</div></div>
+    <div class="chg new"><div class="pg">p.43 · 추가</div><div class="ttl">기타행정활동수입 신설</div><div class="txt">선거사무 투표소 사용 사례금 항목 신설. 학교로 수령하는 경우 기타행정활동수입으로 편성</div></div>
+    <div class="chg mod"><div class="pg">p.46 · 변경</div><div class="ttl">학생복지운영 확대</div><div class="txt">학생맞춤통합지원 추가. 교육복지우선지원 대상을 경제·사회·문화적 취약학생 맞춤형 통합지원으로 명확화</div></div>
+    <div class="chg mod"><div class="pg">p.199 · 변경</div><div class="ttl">위원회 참석수당 인상</div><div class="txt">기본 100,000원 → <b>150,000원</b> / 2시간 초과 50,000원 → <b>75,000원</b> 으로 인상</div></div>
+    <div class="chg new"><div class="pg">p.50 · 신설</div><div class="ttl">환경교육운영 신설</div><div class="txt">학교 환경교육 운영 관련 사업비 항목 신설. 시설·자료·프로그램·전문인력 활용비 포함</div></div>
+  </div>
+</div>
+
+<!-- ===== 1~5장 통합 ===== -->
+<div id="page-chall" class="page">
+  <div class="pg-header">
+    <div class="badge">제1장 ~ 제5장</div>
+    <h2>예산편성 기본지침 전체 내용</h2>
+    <p>1장부터 5장까지 한 페이지에서 확인할 수 있습니다.</p>
+  </div>
+
+  <!-- 1장 -->
+  <div class="ch-block">
+    <div class="ch-divider"><div class="num">제 1 장</div><h2>교육재정 운용방향</h2><hr></div>
+    <div class="g3">
+      <div class="mc" style="border-top:3px solid #4e9af1"><h4>① 자율성 확대</h4><p>경기교육 기본계획과 학교 교육지표 연계, 학교 여건·특성에 맞는 자율적 예산편성. 수평적 논의로 예산편성·집행 결정</p></div>
+      <div class="mc" style="border-top:3px solid #10b981"><h4>② 건전성 제고</h4><p>관련 법령·지침 준수로 투명성 확보. 전년도 예·결산 분석 결과 철저 반영. 과목별·사업별·비목별 기준 준수</p></div>
+      <div class="mc" style="border-top:3px solid #f59e0b"><h4>③ 효율성 강화</h4><p>재정분석·중간점검 기반 책무성 강화. 회계연도 내 적극적 세출 집행. 이월액 최소화, 재정정보 공개</p></div>
+    </div>
+    <div class="card">
+      <h3>세부방침 및 협조사항</h3>
+      <div class="g3">
+        <div><h4>세부방침</h4>
+          <ul>
+            <li>학생·학부모 참여 보장, 교육공동체 의견수렴</li>
+            <li>교수학습활동 예산 우선 확보</li>
+            <li>학교회계 자체 교육·지도 안내 강화</li>
+          </ul>
+        </div>
+        <div><h4>협조사항 — 교육청·지자체</h4>
+          <ul>
+            <li>표준교육비 합리적 배분 기준 마련</li>
+            <li>1~2월 조기 집행 목적 전입금 교부 금지</li>
+            <li>2026.1.9.까지 자금 교부계획 통보</li>
+          </ul>
+        </div>
+        <div><h4>협조사항 — 학교</h4>
+          <ul>
+            <li>2월 말일 후 추경 편성 절대 금지</li>
+            <li>불필요한 예산 이월 예방</li>
+            <li>집행 잔액 최소화, 예산낭비 사전 예방</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2장 -->
+  <div class="ch-block">
+    <div class="ch-divider"><div class="num">제 2 장</div><h2>예산편성 기본지침</h2><hr></div>
+    <div class="card">
+      <h3>예산편성 및 심의 일정</h3>
+      <ul class="tl">
+        <li><div class="dot">①</div><div class="bdy"><div class="date">~2025.11.30.</div><div class="ttl">기본지침 시달</div><div class="desc">경기교육방향, 재정운용 기본방향, 예산편성 기준 시달</div></div></li>
+        <li><div class="dot">②</div><div class="bdy"><div class="date">2025.12월</div><div class="ttl">예산요구서 제출 및 예산안 편성</div><div class="desc">부서별 예산요구서 수합 → 교직원회의 조정회의(1차 사정)</div></div></li>
+        <li><div class="dot">③</div><div class="bdy"><div class="date">~2026.1.9.</div><div class="ttl">전입금 교부계획 통지</div><div class="desc">회계연도 개시 50일 전, 연간 자금교부계획 통보</div></div></li>
+        <li><div class="dot">④</div><div class="bdy"><div class="date">~2026.1.29.</div><div class="ttl">예산안 제출 (학교운영위원회)</div><div class="desc">회계연도 개시 30일 전까지 제출, 위원에게 7일 전 통지</div></div></li>
+        <li><div class="dot">⑤</div><div class="bdy"><div class="date">~2026.2.23.</div><div class="ttl">예산안 심의</div><div class="desc">학교장 제안설명 → 교직원 의견 청취 → 심의 후 학교장 통보</div></div></li>
+        <li><div class="dot">⑥</div><div class="bdy"><div class="date">~2026.2.28.</div><div class="ttl">예산 확정 및 공개</div><div class="desc">확정 후 10일 이내 학교 홈페이지 공개</div></div></li>
+      </ul>
+    </div>
+    <div class="g2">
+      <div class="card" style="margin-bottom:0">
+        <h3>예산의 종류</h3>
+        <h4>추가경정예산</h4><p>기정예산 변경 필요 시. 회계연도 종료 전 정리추경 실시</p>
+        <div class="warn" style="font-size:11px">⚠️ 2월 말일 이후 추경 편성 절대 금지</div>
+        <h4>준예산</h4><p>예산 미확정 시 인건비·직접 교육비·시설 유지관리비·법령상 의무 경비·이월비 집행 가능</p>
+        <h4>성립전예산</h4><p>용도 지정·소요 전액 교부 경비. 동일 회계연도 내 추경 반영 필수</p>
+        <h4>간주처리예산</h4><p>2월 이후 목적지정 사업비 교부 시 학교운영위원회 재소집 불가 경우. 예산총칙에 간주처리 조항 사전 포함 필수</p>
+      </div>
+      <div class="card" style="margin-bottom:0">
+        <h3>이용·전용·이월</h3>
+        <table class="tbl">
+          <tr><th>구분</th><th>이용</th><th>전용</th></tr>
+          <tr><td>적용범위</td><td>정책사업 간</td><td>단위사업·세부사업·목 간</td></tr>
+          <tr><td>요구권자</td><td>학교장</td><td>사업담당자</td></tr>
+          <tr><td>승인권자</td><td>학교운영위원회</td><td>학교장</td></tr>
+        </table>
+        <div class="warn" style="margin-top:10px;font-size:11px">❌ 이·전용 불가: 신규사업·업무추진비 전환·인건비·시설비·예비비·정산재원·회계연도 종료 후</div>
+        <h4 style="margin-top:12px">이월 종류</h4>
+        <ul>
+          <li><b>명시이월</b>: 경비 성질상 완료 불가 예상 → 학교운영위원회 심의 후 이월</li>
+          <li><b>사고이월</b>: 지출원인행위 후 불가피한 사유로 당해 연도 지출 불가</li>
+          <li><b>계속비이월</b>: 다년도 사업 불용액 이월</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>세입·세출 편성 기준</h3>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">세입 — 이전수입·자체수입·기타수입 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <p><b>A. 이전수입</b>: 국고보조금, 지자체전입금(농어촌·급식비·사회적배려), 교육비특별회계전입금(학교운영비·목적사업비), 학교발전기금전입금, 기타공공지원금</p>
+        <p><b>B. 자체수입</b>: 수익자부담수입(학생급식비·우유급식비·교직원등급식비·방과후·현장체험·졸업앨범·교과서·기숙사·누리과정·교복·늘봄학교운영비), 사용료·수수료, 이자수입, 기타행정활동수입(투표소 사용 사례금 신설)</p>
+        <p><b>C. 기타수입</b>: 순세계잉여금, 정산대상재원사용잔액, 이월사업비</p>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">세출 사업별 — 인적자원·교육활동·운영·시설 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <p><b>인적자원운용</b>: 교직원대체인건비, 기타수당, 교직원역량강화(직무·자격연수), 교직원복지(포상·맞춤형복지비·생일기념경비 1인 3만원 이내)</p>
+        <p><b>기본·선택적 교육활동</b>: 교과활동, 창의적체험, 방과후학교, 늘봄학교, 급식운영, 학생복지(졸업앨범·교복·학생맞춤통합지원), 환경교육운영(신설), 학생생활상담지도</p>
+        <p><b>학교일반운영·시설</b>: 행정운영, 교육정보화, 학교시설개선, 부설기관운영, 예비비</p>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">세출 성질별 (비목 체계) <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>비목</th><th>주요 내용</th></tr>
+          <tr><td>A. 인건비</td><td>기간제 교원·행정직원(퇴직급여 포함), 기간제 계약직·일용직·장애인교원근로지원인</td></tr>
+          <tr><td>B. 운영비</td><td>일반수용비, 교육운영비(교구·재료·숙박·교통·체험), 학생복지비, 운영수당, 여비, 업무추진비</td></tr>
+          <tr><td>C. 자산취득비</td><td>시설비(수리·개선·임차보증금), 비품구입비(도서·기자재)</td></tr>
+          <tr><td>D. 예비비 및 기타</td><td>예비비(예측 불가 경비 한정), 반환금</td></tr>
+        </table>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 3장 -->
+  <div class="ch-block">
+    <div class="ch-divider"><div class="num">제 3 장</div><h2>세출예산 집행지침</h2><hr></div>
+    <div class="card">
+      <h3>세부 집행 기준</h3>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">인건비 집행 기준 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <p>기간제 교원(결원 충원), 기간제 행정직, 장애인교원 근로지원인(2026 신설). 돌봄전담사·늘봄전담인력·방과후 강사비는 해당 사업비로 편성</p>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">업무추진비 집행 기준 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <p><b>기관운영</b>: 외빈초청 연회비 1인 5만원·선물 1인 5만원 이내. 경조사비(학교 상근 교직원·학교운영위원·학부모회 임원 대상)</p>
+        <p><b>직책급업무수행경비</b>: 직위별 월정액. 30일 이상 직책 수행 불가 시 일할계산</p>
+        <p><b>위원회 참석수당</b> (2026 인상): 기본 150,000원 / 2시간 초과 75,000원 (1일 1회)</p>
+        <div class="warn">❌ 금지: 경조사비·격려금 월정액 개인 지급, 사적 모임 경비, 교직원 임의 단체 회비</div>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">예비비 사용 제한 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <p>예측 불가 경비(재해복구비 등)에 한해 신중 사용</p>
+        <div class="warn">❌ 사용 불가: 학교운영위원회 폐지·감액 항목 / 업무추진비·목적지정사업비 / 추경 편성 후 집행 가능한 경우 / 회계연도 종료 후</div>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">집행 투명성 강화 및 지역경제 활성화 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <ul>
+          <li>수익자부담금 현금수납 원칙적 금지 (스쿨뱅킹·CMS·가상계좌 이용)</li>
+          <li>지출: 온라인 거래(EFT·e-교육금고·인터넷뱅킹) 원칙, 은행 창구 방문 금지</li>
+          <li>200만원 이상 이체 시 학교장·행정실장 SMS 통보 의무</li>
+          <li>지정정보처리장치(G2B·S2B) 우선 이용, 경기도 업체 우선 계약</li>
+        </ul>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 4장 -->
+  <div class="ch-block">
+    <div class="ch-divider"><div class="num">제 4 장</div><h2>학교기본운영비</h2><hr></div>
+    <div class="card">
+      <h3>표준교육비 산정 기준</h3>
+      <div class="note">📐 학교기본운영비 = 표준교육비(규모별 ± 여건별) + 총액교부사업 ㅣ 산정 기준일: 2026.4.1.</div>
+      <div class="g3" style="margin-top:14px">
+        <div class="infotile"><div class="big">7,107</div><div class="sub">천원/학급</div><div class="lbl">유치원 급당경비</div></div>
+        <div class="infotile"><div class="big">2,358</div><div class="sub">천원/학급</div><div class="lbl">초등학교 급당경비</div></div>
+        <div class="infotile"><div class="big">2,011</div><div class="sub">천원/학급</div><div class="lbl">중학교 급당경비</div></div>
+        <div class="infotile"><div class="big">222</div><div class="sub">천원/학생</div><div class="lbl">유치원 학생당경비</div></div>
+        <div class="infotile"><div class="big">124</div><div class="sub">천원/학생</div><div class="lbl">초등학교 학생당경비</div></div>
+        <div class="infotile"><div class="big">308</div><div class="sub">천원/학생</div><div class="lbl">특수학급 학생당경비 (전 학교급 공통)</div></div>
+      </div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">여건별 표준교육비 (기본경비 조정 항목) <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>항목</th><th>내용</th></tr>
+          <tr><td>과대학교 지원</td><td>60학급 초과 초등학교 → 초과 학급 수 × 1,062천원</td></tr>
+          <tr><td>과밀학급 지원</td><td>28명 이상 학급 보유교 → 과밀 해소 학급에 교당·급당경비 추가</td></tr>
+          <tr><td>건물유지비</td><td>건물면적 × 산정단가 × 학급규모별 적용률의 80%. 상한액 교당 4,800만원</td></tr>
+          <tr><td>BTL학교 감액</td><td>민간투자사업자 부담 항목 감액 (조정계수 0.7~1.3)</td></tr>
+          <tr><td>신설학교 개교경비</td><td>개교 2개월 전, 완성학급 기준 표준교육비 4개월분 추가 지급</td></tr>
+          <tr><td>순세계잉여금 과다교 감액</td><td>2025회계연도 순세계잉여금이 표준교육비 3% 초과 시 해당 금액 감액</td></tr>
+        </table>
+      </div></div>
+    </div>
+  </div>
+
+  <!-- 5장 -->
+  <div class="ch-block">
+    <div class="ch-divider"><div class="num">제 5 장</div><h2>예산과목 체계 및 과목해설</h2><hr></div>
+    <div class="card">
+      <h3>세입예산 과목 구조</h3>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">A. 이전수입 세목 전체 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>코드</th><th>과목명</th><th>해설</th></tr>
+          <tr><td>A1101</td><td>국고보조금</td><td>중앙정부 교부 국고보조금</td></tr>
+          <tr><td>A210109</td><td>농어촌학교보조금(광역)</td><td>농어촌학교 학생 지원 경비</td></tr>
+          <tr><td>A210110</td><td>사회적배려대상자지원보조금</td><td>한부모자녀·기초생활수급자·다문화·특수교육·북한이탈주민 자녀 지원</td></tr>
+          <tr><td>A210111</td><td>급식비보조금(광역)</td><td>학교급식법에 따른 급식경비 보조</td></tr>
+          <tr><td>A310101</td><td>학교운영비전입금</td><td>목적 없이 총액으로 교부되는 전입금</td></tr>
+          <tr><td>A310102</td><td>목적사업비전입금</td><td>학교 목적사업 수행을 위한 전입금</td></tr>
+          <tr><td>A420101</td><td>학교발전기금전입금</td><td>학교운영위원회가 전출하는 기금</td></tr>
+          <tr><td>A430101</td><td>기타공공지원금</td><td>공공기관 등이 지원하는 지원금</td></tr>
+        </table>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">B. 자체수입 — 수익자부담수입 세목 전체 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>코드</th><th>과목명</th><th>해설</th></tr>
+          <tr><td>B120101</td><td>학생급식비</td><td>학생에게 제공하는 급식비 수익자부담금 (2026 신설)</td></tr>
+          <tr><td>B120102</td><td>우유급식비</td><td>학생에게 제공하는 우유 대금 수익자부담금 (2026 신설)</td></tr>
+          <tr><td>B120103</td><td>교직원등급식비</td><td>교직원 등에게 제공하는 급식비 수익자부담금 (2026 신설)</td></tr>
+          <tr><td>B120201</td><td>방과후학교활동비</td><td>방과후·토요·방학중 교육활동 수익자부담금</td></tr>
+          <tr><td>B120301</td><td>현장체험학습비</td><td>수학여행·소풍·견학·수련활동 수익자부담금</td></tr>
+          <tr><td>B120601</td><td>졸업앨범비</td><td>졸업앨범 제작·구매 수익자부담금</td></tr>
+          <tr><td>B120701</td><td>교과서비</td><td>교과서 구입 수익자부담금</td></tr>
+          <tr><td>B120801</td><td>기숙사비</td><td>기숙사 생활 수익자부담금</td></tr>
+          <tr><td>B121001</td><td>누리과정비</td><td>유치원 누리과정 수익자부담금</td></tr>
+          <tr><td>B121101</td><td>교복구입비</td><td>교복 구입 수익자부담금</td></tr>
+          <tr><td>B121401</td><td>늘봄학교운영비</td><td>늘봄학교 운영 수익자부담금</td></tr>
+          <tr><td>B120901</td><td>기타수익자부담수입</td><td>기타 교육활동 수익자부담금</td></tr>
+        </table>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">C. 기타수입 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>코드</th><th>과목명</th><th>해설</th></tr>
+          <tr><td>C110101</td><td>순세계잉여금</td><td>전년도 학교회계에서 발생한 순세계잉여금</td></tr>
+          <tr><td>C120101</td><td>정산대상재원사용잔액</td><td>전년도 국고·지자체·교육청·목적사업비 사용 잔액 (반납 예정)</td></tr>
+          <tr><td>C130101</td><td>이월사업비</td><td>명시이월, 사고이월, 계속비이월</td></tr>
+        </table>
+      </div></div>
+    </div>
+    <div class="card">
+      <h3>세출예산 사업별·성질별 과목</h3>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">사업별 — 인적자원·교육활동 주요 과목 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>단위사업</th><th>주요 세부내용</th></tr>
+          <tr><td>교직원대체인건비</td><td>교원대체인건비, 직원대체인건비 (출산휴가·병가 등 결원 충원)</td></tr>
+          <tr><td>교직원복지</td><td>포상, 맞춤형복지비, 생일기념경비(1인 3만원 이내)</td></tr>
+          <tr><td>교과활동</td><td>교구·기자재, 소프트웨어, 숙박·식비·교통·체험비, 도서관운영비, 동아리</td></tr>
+          <tr><td>늘봄학교운영</td><td>늘봄학교(늘봄과정) 운영비, 늘봄전담인력 운영</td></tr>
+          <tr><td>학생복지</td><td>졸업앨범, 교복, 학생자치활동, 학생맞춤통합지원</td></tr>
+          <tr><td>환경교육운영 (신설)</td><td>환경교육 시설·자료·프로그램·전문인력 활용비</td></tr>
+          <tr><td>학생생활상담지도</td><td>생활지도여비, 개별학생교육지원비, 학생보호인력, Wee클래스</td></tr>
+        </table>
+      </div></div>
+      <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">성질별 비목 체계 <span class="arr">▼</span></div>
+      <div class="acc-body">
+        <table class="tbl">
+          <tr><th>비목</th><th>내용</th></tr>
+          <tr><td>인건비 (A)</td><td>기간제근로자인건비 (퇴직급여 포함), 기간제 계약직·일용직·장애인교원근로지원인</td></tr>
+          <tr><td>일반수용비 (B-01)</td><td>사무용품, 인쇄·제본, 도서, 회의·행사 식비, 소모품 구입</td></tr>
+          <tr><td>교육운영비 (B-02)</td><td>교구·기자재, 재료비, 구독형 소프트웨어, 활동 숙박·식비·교통, 학생여비, 동아리</td></tr>
+          <tr><td>학생복지비 (B-03)</td><td>장학금, 학생자치활동경비, 보건검사비, 졸업앨범비, 교복, 학생맞춤통합지원비</td></tr>
+          <tr><td>운영수당 (B-04)</td><td>업무추진비, 위원회참석수당(기본 150,000원), 강사·심사수당</td></tr>
+          <tr><td>여비 (B-05)</td><td>국내·국외 출장 여비</td></tr>
+          <tr><td>시설비 (C-01)</td><td>시설 수리·개선비, 임차보증금</td></tr>
+          <tr><td>비품구입비 (C-02)</td><td>도서, 기자재, 기타 비품</td></tr>
+          <tr><td>예비비 (D)</td><td>예측 불가 경비에 한해 신중 사용</td></tr>
+        </table>
+      </div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 혼동하기 쉬운 원가통계비목 ===== -->
+<div id="page-bimok" class="page">
+  <div class="pg-header">
+    <div class="badge">비목 가이드</div>
+    <h2>혼동하기 쉬운 원가통계비목</h2>
+    <p>실무에서 자주 헷갈리는 비목 구분 기준을 정리했습니다. 색상별 비목 그룹을 참고하세요.</p>
+  </div>
+
+  <!-- 범례 -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px">
+    <span style="background:#dbeafe;color:#1e40af;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🔵 인건비</span>
+    <span style="background:#d1fae5;color:#065f46;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🟢 일반수용비</span>
+    <span style="background:#fef3c7;color:#78350f;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🟡 교육운영비</span>
+    <span style="background:#ede9fe;color:#5b21b6;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🟣 학생복지비</span>
+    <span style="background:#fee2e2;color:#991b1b;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🔴 운영수당</span>
+    <span style="background:#f0fdf4;color:#166534;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">🌿 여비</span>
+    <span style="background:#f1f5f9;color:#334155;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px">⬛ 자산취득비</span>
+  </div>
+
+  <!-- 핵심 혼동 사례 카드 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px">
+    <div class="card" style="margin-bottom:0;border-left:4px solid #3b82f6">
+      <h3 style="color:#1e40af">① 인건비 vs 운영수당</h3>
+      <table class="tbl" style="margin-top:8px;table-layout:fixed;width:100%">
+        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+        <tr><th style="background:#dbeafe;color:#1e40af">인건비</th><th style="background:#fee2e2;color:#991b1b">운영수당</th></tr>
+        <tr><td>기간제 교원·행정직 채용<br>근로계약서 체결, 4대보험 가입</td><td>외부 강사·전문가 수당<br>위원회 참석수당 (근로계약 없음)</td></tr>
+        <tr><td>돌봄전담사, 늘봄전담인력<br>(해당 사업비 항목에 편성)</td><td>교원 업무추진비<br>직책급 업무수행경비</td></tr>
+      </table>
+      <div class="note" style="margin-top:8px">✅ 판단 기준: 근로계약서 체결 여부. 계약서가 있으면 인건비, 없으면 운영수당</div>
+    </div>
+    <div class="card" style="margin-bottom:0;border-left:4px solid #10b981">
+      <h3 style="color:#065f46">② 일반수용비 vs 교육운영비</h3>
+      <table class="tbl" style="margin-top:8px;table-layout:fixed;width:100%">
+        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+        <tr><th style="background:#d1fae5;color:#065f46">일반수용비</th><th style="background:#fef3c7;color:#78350f">교육운영비</th></tr>
+        <tr><td>사무용품 구입<br>인쇄·제본·복사</td><td>교육용 재료비<br>교구·기자재 구입</td></tr>
+        <tr><td>회의·행사 다과·식비<br>도서 구입 (행정용)</td><td>현장체험·숙박·교통비<br>도서 구입 (교육용)</td></tr>
+        <tr><td>소모품 일반 구입</td><td>구독형 소프트웨어·콘텐츠</td></tr>
+      </table>
+      <div class="note" style="margin-top:8px">✅ 판단 기준: 교육활동에 직접 사용되면 교육운영비, 행정·사무 목적이면 일반수용비</div>
+    </div>
+    <div class="card" style="margin-bottom:0;border-left:4px solid #8b5cf6">
+      <h3 style="color:#5b21b6">③ 학생복지비 vs 교육운영비</h3>
+      <table class="tbl" style="margin-top:8px;table-layout:fixed;width:100%">
+        <colgroup><col style="width:50%"><col style="width:50%"></colgroup>
+        <tr><th style="background:#ede9fe;color:#5b21b6">학생복지비</th><th style="background:#fef3c7;color:#78350f">교육운영비</th></tr>
+        <tr><td>장학금 지급</td><td>교육활동 재료비·도구비</td></tr>
+        <tr><td>교복 구입비 (수익자부담)</td><td>현장체험학습 교통·숙박</td></tr>
+        <tr><td>졸업앨범 제작비</td><td>동아리 활동 재료·운영비</td></tr>
+        <tr><td>학생맞춤통합지원비</td><td>방과후학교 강사료 외 운영비</td></tr>
+        <tr><td>학생자치활동 지원비</td><td>누리과정 교재·교구비</td></tr>
+      </table>
+      <div class="note" style="margin-top:8px">✅ 판단 기준: 학생 개인에게 직접 지원(복지)이면 학생복지비, 활동·수업 재료비면 교육운영비</div>
+    </div>
+    <div class="card" style="margin-bottom:0;border-left:4px solid #6b7280">
+      <h3 style="color:#334155">④ 시설비 vs 비품구입비 vs 일반수용비</h3>
+      <table class="tbl" style="margin-top:8px;table-layout:fixed;width:100%">
+        <colgroup><col style="width:40%"><col style="width:30%"><col style="width:30%"></colgroup>
+        <tr><th style="background:#f1f5f9;color:#334155">시설비</th><th style="background:#f1f5f9;color:#334155">비품구입비</th><th style="background:#d1fae5;color:#065f46">일반수용비</th></tr>
+        <tr><td>건물·시설 수리·개선</td><td>내구연한 있는 비품</td><td>소모성 물품 구입</td></tr>
+        <tr><td>시설 설치·임차보증금</td><td>컴퓨터·프린터 등 기기</td><td>복사용지·사무용품</td></tr>
+        <tr><td>도배·페인트·바닥 공사</td><td>도서 (내구성 있는)</td><td>토너·잉크 (소모품)</td></tr>
+        <tr><td>전기·배관·냉난방 개선</td><td>교육용 기자재</td><td>청소용품·위생용품</td></tr>
+      </table>
+      <div class="note" style="margin-top:8px">✅ 판단 기준: 공사·설치면 시설비 / 내구성 비품이면 비품구입비 / 1회 소모되면 일반수용비</div>
+    </div>
+  </div>
+
+  <!-- 여비 혼동 -->
+  <div class="card" style="border-left:4px solid #10b981">
+    <h3 style="color:#166534">⑤ 여비 vs 교육운영비 — 교통·숙박비 구분</h3>
+    <table class="tbl" style="table-layout:fixed;width:100%">
+      <colgroup><col style="width:16%"><col style="width:30%"><col style="width:30%"><col style="width:24%"></colgroup>
+      <tr>
+        <th style="background:#f0fdf4;color:#166534">구분</th>
+        <th style="background:#f0fdf4;color:#166534">여비</th>
+        <th style="background:#fef3c7;color:#78350f">교육운영비</th>
+        <th style="background:#f0f5ff;color:#1a2d4e">판단 기준</th>
+      </tr>
+      <tr><td>출장</td><td>교직원 공무 출장 교통·숙박비</td><td>❌ 해당 없음</td><td>공무 출장 → 여비</td></tr>
+      <tr><td>현장체험학습</td><td>❌ 해당 없음</td><td>학생 현장체험 교통·숙박비</td><td>학생 활동 → 교육운영비</td></tr>
+      <tr><td>연수</td><td>직무·자격연수 출장 여비</td><td>연수 재료비</td><td>이동비 → 여비 / 재료비 → 교육운영비</td></tr>
+    </table>
+  </div>
+
+  <!-- 전체 비목 요약 대표표 -->
+  <div class="card">
+    <h3>원가통계비목 전체 요약표</h3>
+    <table class="tbl" style="table-layout:fixed;width:100%">
+      <colgroup><col style="width:16%"><col style="width:38%"><col style="width:46%"></colgroup>
+      <tr>
+        <th>비목명</th>
+        <th>주요 집행 항목</th>
+        <th>혼동 주의 포인트 및 올바른 처리</th>
+      </tr>
+      <tr style="background:#dbeafe">
+        <td><b>인건비</b></td>
+        <td>기간제 교원·행정직, 계약직·일용직, 장애인교원 근로지원인</td>
+        <td>⚠️ 강사수당·위원회수당은 운영수당으로. 돌봄·늘봄 인력도 해당 사업비 항목으로</td>
+      </tr>
+      <tr>
+        <td><b>일반수용비</b></td>
+        <td>사무용품, 인쇄·제본, 회의비(다과), 행정용 도서</td>
+        <td>⚠️ 교육목적 재료비는 교육운영비로. "행정 목적" vs "교육 목적"이 핵심 구분</td>
+      </tr>
+      <tr style="background:#fef9c3">
+        <td><b>교육운영비</b></td>
+        <td>교구·기자재, 교육 재료비, 현장체험 교통·숙박, 동아리, 구독형 SW</td>
+        <td>⚠️ 학생 개인 지원금은 학생복지비로. 소모품은 일반수용비. 비품(내구)은 비품구입비</td>
+      </tr>
+      <tr>
+        <td><b>학생복지비</b></td>
+        <td>장학금, 교복, 졸업앨범, 학생맞춤통합지원, 학생자치활동비</td>
+        <td>⚠️ 단체 활동 재료비는 교육운영비로. 학생 개인에게 직접 지원되는 것만 학생복지비</td>
+      </tr>
+      <tr style="background:#fee2e2">
+        <td><b>운영수당</b></td>
+        <td>업무추진비, 강사수당, 위원회참석수당, 전문가 자문수당</td>
+        <td>⚠️ 근로계약서 있으면 인건비로. 1일 1회 한도. 위원회수당 기본 150,000원</td>
+      </tr>
+      <tr>
+        <td><b>여비</b></td>
+        <td>교직원 공무 출장 교통·숙박비, 연수 여비</td>
+        <td>⚠️ 학생 현장체험 교통·숙박은 교육운영비로 편성</td>
+      </tr>
+      <tr style="background:#f1f5f9">
+        <td><b>시설비</b></td>
+        <td>건물·시설 수리·개선, 설치 공사, 임차보증금</td>
+        <td>⚠️ 내구성 있는 비품 구입은 비품구입비. 소모성 자재는 일반수용비</td>
+      </tr>
+      <tr style="background:#f1f5f9">
+        <td><b>비품구입비</b></td>
+        <td>컴퓨터·프린터·복합기, 교육기자재, 내구성 도서</td>
+        <td>⚠️ 소모성 물품(토너·용지 등)은 일반수용비로 처리</td>
+      </tr>
+      <tr>
+        <td><b>예비비</b></td>
+        <td>예측 불가 경비 (재해·사고 등)</td>
+        <td>⚠️ 업무추진비·목적지정사업비 전환 불가. 추경 가능하면 예비비 사용 불가</td>
+      </tr>
+    </table>
+    <div class="warn" style="margin-top:14px">❌ 자주 발생하는 오류: 강사수당을 인건비로 / 소모품을 비품구입비로 / 학생 교통비를 여비로 / 행사 다과를 교육운영비로 편성하는 경우 → 모두 비목 오류</div>
+  </div>
+</div>
+
+<!-- ===== 6장 ===== -->
+<div id="page-ch6" class="page">
+  <div class="pg-header">
+    <div class="badge">제6장</div>
+    <h2>참고자료</h2>
+    <p>예산편성 기준단가, 관련 법령, 업무참고 사이트, 서식 안내</p>
+  </div>
+
+  <!-- 기준단가 인포그래픽 -->
+  <div class="card">
+    <h3>Ⅰ. 예산편성 기준단가</h3>
+    <div class="g3" style="margin-bottom:18px">
+      <div class="infotile" style="border-top:3px solid #10b981">
+        <div class="big" style="color:#10b981">150,000</div>
+        <div class="sub">원 (기본)</div>
+        <div class="lbl">위원회 참석수당<br><span style="color:#10b981;font-size:10px;font-weight:700">▲ 2026 인상 (2025: 100,000원)</span></div>
+      </div>
+      <div class="infotile" style="border-top:3px solid #f59e0b">
+        <div class="big" style="color:#f59e0b">75,000</div>
+        <div class="sub">원 (2시간 초과)</div>
+        <div class="lbl">위원회 참석수당 초과분<br><span style="color:#f59e0b;font-size:10px;font-weight:700">▲ 2026 인상 (2025: 50,000원)</span></div>
+      </div>
+      <div class="infotile">
+        <div class="big">60,000</div>
+        <div class="sub">원/일(야)</div>
+        <div class="lbl">일·숙직 수당<br>(일직 1일당 / 숙직 1야당)</div>
+      </div>
+      <div class="infotile">
+        <div class="big">9,000</div>
+        <div class="sub">원/식</div>
+        <div class="lbl">사회복무요원 중식비<br>교통비(왕복): 3,000원/일</div>
+      </div>
+      <div class="infotile">
+        <div class="big">9,000</div>
+        <div class="sub">원/식</div>
+        <div class="lbl">매식비<br>(정규 1시간 전·후 근무자)</div>
+      </div>
+      <div class="infotile">
+        <div class="big">30,000</div>
+        <div class="sub">원 이내</div>
+        <div class="lbl">교직원 생일 기념경비<br>(상품권 또는 케이크 등)</div>
+      </div>
+    </div>
+
+    <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">교육강사수당 기준단가 <span class="arr">▼</span></div>
+    <div class="acc-body">
+      <table class="tbl">
+        <tr><th>구분</th><th>지급 대상</th><th>기본료</th><th>초과(시간당)</th></tr>
+        <tr><td>특별강사 Ⅰ</td><td>전·현직 장관급·교육감·광역단체장·국회의원·대학총장급</td><td>400,000원</td><td>200,000원</td></tr>
+        <tr><td>특별강사 Ⅱ</td><td>전·현직 차관급·공직유관단체장·인간문화재·유명 예술인</td><td>300,000원</td><td>150,000원</td></tr>
+        <tr><td>일반강사 Ⅰ</td><td>대학 전임강사 이상, 판·검사·변호사·의사·공인회계사·기술사, 4급 이상 공무원</td><td>200,000원</td><td>100,000원</td></tr>
+        <tr><td>일반강사 Ⅱ</td><td>5급 이하 공무원(장학사·교사 포함), 시간강사</td><td>130,000원</td><td>60,000원</td></tr>
+        <tr><td>보조강사</td><td>각종 실기·실습 보조자, 분반·분임활동 지도</td><td>40,000원</td><td>20,000원</td></tr>
+      </table>
+      <div class="note" style="margin-top:10px">📌 수강 인원 가산: 79명 이하 100% / 80~119명 120% / 120~159명 140% / 160~199명 160% / 200명 이상 200%</div>
+    </div></div>
+
+    <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">원고료 기준단가 <span class="arr">▼</span></div>
+    <div class="acc-body">
+      <table class="tbl">
+        <tr><th>구분</th><th>기준</th><th>단가</th></tr>
+        <tr><td>국문</td><td>A4 1매당 (12pt, 행간160, 상하여백 20mm, 좌우여백 25mm)</td><td>15,000원</td></tr>
+        <tr><td>외국어</td><td>A4 1매당 (동일 기준)</td><td>13,000원</td></tr>
+        <tr><td>파워포인트</td><td>1면당 (시간당 9면 이내)</td><td>5,000원</td></tr>
+      </table>
+      <p style="margin-top:8px;font-size:11.5px;color:#777">※ 강의 원고료는 시간당 2.5매 이내. 원고별 중복 지급 불가</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">기타 운영수당 <span class="arr">▼</span></div>
+    <div class="acc-body">
+      <table class="tbl">
+        <tr><th>구분</th><th>지급 대상</th><th>기본료</th><th>초과(2시간 이상)</th></tr>
+        <tr><td>편집·자료개발·심사·심판·자문수당</td><td>교수·변호사 등 전문가 (일반강사Ⅰ 이상)</td><td>70,000원</td><td>30,000원</td></tr>
+        <tr><td>편집·자료개발·심사·심판·자문수당</td><td>전문가 외</td><td>40,000원</td><td>20,000원</td></tr>
+      </table>
+    </div></div>
+
+    <div class="acc"><div class="acc-hd" onclick="toggleAcc(this)">중요 비품비 (사무용기기 취득비) 기준단가 <span class="arr">▼</span></div>
+    <div class="acc-body">
+      <table class="tbl">
+        <tr><th>구분</th><th>규격</th><th>2026 단가</th></tr>
+        <tr><td>컴퓨터 (데스크톱)</td><td>Core i5급 이상</td><td>1,100,000원</td></tr>
+        <tr><td>컴퓨터 (노트북)</td><td>Core i5급 이상</td><td>1,400,000원</td></tr>
+        <tr><td>모니터</td><td>22인치 이상</td><td>300,000원</td></tr>
+        <tr><td>프린터 (흑백 A4)</td><td>레이저</td><td>450,000원</td></tr>
+        <tr><td>프린터 (흑백 A3)</td><td>레이저</td><td>900,000원</td></tr>
+        <tr><td>프린터 (컬러 A4)</td><td>레이저</td><td>1,000,000원</td></tr>
+        <tr><td>프린터 (컬러 A3)</td><td>레이저</td><td>2,430,000원</td></tr>
+        <tr><td>전자복사기</td><td>디지털복합기</td><td>4,200,000원</td></tr>
+        <tr><td>모사전송기</td><td>고속형</td><td>370,000원</td></tr>
+      </table>
+    </div></div>
+  </div>
+
+  <!-- 관련 법령 -->
+  <div class="card">
+    <h3>Ⅱ. 학교회계 관련 법령 및 참고자료</h3>
+    <div class="law-list">
+      <div class="law-item"><div class="ministry">교육부</div><div class="lname">교육비특별회계 회계기준에 관한 규칙</div></div>
+      <div class="law-item"><div class="ministry">교육부</div><div class="lname">지방자치단체 교육비특별회계 세출예산 집행기준</div></div>
+      <div class="law-item"><div class="ministry">교육부</div><div class="lname">초·중등교육법</div></div>
+      <div class="law-item"><div class="ministry">교육부</div><div class="lname">지방교육재정교부금법</div></div>
+      <div class="law-item"><div class="ministry">교육부</div><div class="lname">지방자치단체의 교육경비 보조에 관한 규정</div></div>
+      <div class="law-item"><div class="ministry">행정안전부</div><div class="lname">지방재정법 / 지방회계법</div></div>
+      <div class="law-item"><div class="ministry">행정안전부</div><div class="lname">지방자치단체를 당사자로 하는 계약에 관한 법률</div></div>
+      <div class="law-item"><div class="ministry">행정안전부</div><div class="lname">지방공무원 보수규정 / 보수업무 처리지침</div></div>
+      <div class="law-item"><div class="ministry">기획재정부</div><div class="lname">보조금 관리에 관한 법률</div></div>
+      <div class="law-item"><div class="ministry">인사혁신처</div><div class="lname">공무원보수규정 / 공무원보수 등의 업무지침</div></div>
+      <div class="law-item"><div class="ministry">경기도교육청</div><div class="lname">경기도 공립학교회계 규칙 (2025.9.1. 개정)</div></div>
+      <div class="law-item"><div class="ministry">경기도교육청</div><div class="lname">경기도교육청 업무추진비 집행기준 및 공개에 관한 조례</div></div>
+    </div>
+    <div class="acc" style="margin-top:14px"><div class="acc-hd" onclick="toggleAcc(this)">경기도 공립학교회계 규칙 주요 조문 <span class="arr">▼</span></div>
+    <div class="acc-body">
+      <table class="tbl">
+        <tr><th>조문</th><th>내용</th></tr>
+        <tr><td>제3조</td><td>회계연도 독립의 원칙 — 각 회계연도 경비는 해당 연도 세입으로 충당</td></tr>
+        <tr><td>제4조</td><td>출납폐쇄기한 — 회계연도 종료일 폐쇄, 예외 시 다음 회계연도 3월 20일까지</td></tr>
+        <tr><td>제9조</td><td>예산편성지침 — 교육감은 회계연도 개시 3개월 전까지 시달</td></tr>
+        <tr><td>제14조</td><td>추가경정예산 편성 — 성립전예산·수익자부담경비는 추경 성립 전 사용 가능</td></tr>
+        <tr><td>제15조</td><td>예비비 사용 제한 — 업무추진비에 지출 불가 (2025.9.1 개정)</td></tr>
+        <tr><td>제16조</td><td>예산 목적외 사용금지 및 이용 — 정책사업 사이 이용은 운영위원회 심의 필요</td></tr>
+        <tr><td>제17조</td><td>전용 — 인건비·시설비 제외, 동일 정책사업 내 단위사업간 목 전용 가능</td></tr>
+        <tr><td>제19조</td><td>세출예산 이월 — 명시이월·사고이월·계속비이월</td></tr>
+        <tr><td>제19조의2</td><td>시설적립금 — 학교시설 사용료수입을 향후 시설 보수를 위해 적립 가능</td></tr>
+        <tr><td>제21조</td><td>수익자부담경비 — 사업별 관리, 종료 후 10일 이내 정산·10일 이내 공개</td></tr>
+        <tr><td>제48조</td><td>예산·결산 공개 — 학교운영위원회 심의 확정 후 교직원·학부모에게 공개</td></tr>
+      </table>
+    </div></div>
+  </div>
+
+  <!-- 업무참고 사이트 -->
+  <div class="card">
+    <h3>Ⅲ. 업무참고 사이트</h3>
+    <div class="site-grid">
+      <a class="site-card" href="https://help.klef.go.kr" target="_blank" rel="noopener"><div class="name">📊 K-에듀파인</div><div class="url">help.klef.go.kr</div><div class="desc">학교회계 시스템. 예·결산, 지출관리, 현금출납부. 자료실·질의응답 제공</div></a>
+      <a class="site-card" href="https://www.g2b.go.kr" target="_blank" rel="noopener"><div class="name">🛒 G2B 나라장터</div><div class="url">www.g2b.go.kr</div><div class="desc">물품구매·용역·공사 입찰·계약. 조달가격정보 조회 가능</div></a>
+      <a class="site-card" href="https://www.s2b.kr" target="_blank" rel="noopener"><div class="name">🏫 S2B 학교장터</div><div class="url">www.s2b.kr</div><div class="desc">학교 물품 구매. 경기도 업체 우선 이용 권장</div></a>
+      <a class="site-card" href="https://edasan.goe.go.kr" target="_blank" rel="noopener"><div class="name">📋 e-DASAN</div><div class="url">edasan.goe.go.kr</div><div class="desc">경기도교육청 현장지원. 자료마당, ON소통, 알림마당</div></a>
+      <a class="site-card" href="https://www.law.go.kr" target="_blank" rel="noopener"><div class="name">⚖️ 국가법령정보센터</div><div class="url">www.law.go.kr</div><div class="desc">법령·행정규칙·자치법규·판례·해석례. 경기도 공립학교회계 규칙 원문 조회</div></a>
+      <a class="site-card" href="https://www.schoolinfo.go.kr" target="_blank" rel="noopener"><div class="name">🏛 학교알리미</div><div class="url">www.schoolinfo.go.kr</div><div class="desc">전국 학교 정보·학교별 공시정보</div></a>
+      <a class="site-card" href="https://www.eduinfo.go.kr" target="_blank" rel="noopener"><div class="name">💰 지방교육재정알리미</div><div class="url">www.eduinfo.go.kr</div><div class="desc">지방교육재정 및 학교정보 공시</div></a>
+      <a class="site-card" href="https://online.kepco.co.kr" target="_blank" rel="noopener"><div class="name">🔌 한전ON</div><div class="url">online.kepco.co.kr</div><div class="desc">전기요금 조회</div></a>
+      <a class="site-card" href="https://www.opinet.co.kr" target="_blank" rel="noopener"><div class="name">⛽ 오피넷</div><div class="url">www.opinet.co.kr</div><div class="desc">유류가격 — 오늘의 유가 조회</div></a>
+      <a class="site-card" href="https://ns.eat.co.kr/NeaT" target="_blank" rel="noopener"><div class="name">📦 공공급식전자조달</div><div class="url">ns.eat.co.kr/NeaT</div><div class="desc">학교급식 전자조달 — 입찰정보·개찰결과</div></a>
+      <a class="site-card" href="https://www.cak.or.kr" target="_blank" rel="noopener"><div class="name">👷 대한건설협회</div><div class="url">www.cak.or.kr</div><div class="desc">건설업 임금실태 조사보고서(시중노임단가) 확인</div></a>
+      <a class="site-card" href="https://www.mpm.go.kr" target="_blank" rel="noopener"><div class="name">🏢 인사혁신처</div><div class="url">www.mpm.go.kr</div><div class="desc">공무원봉급표, 대우공무원수당, 초과근무수당 지급단가 조회</div></a>
+    </div>
+  </div>
+
+</div>
+
+<!-- ===== 예산집행률 현황 ===== -->
+<div id="page-exec" class="page">
+  <div class="pg-header">
+    <div class="badge">집행현황</div>
+    <h2>예산집행률 현황</h2>
+    <p>K-에듀파인에서 내려받은 사업관리카드(현액) 엑셀 파일을 업로드하면 원가통계비목별 집행률을 자동으로 분석합니다.</p>
+  </div>
+
+  <!-- 파일 다운로드 안내 단계 -->
+  <div class="card" style="margin-bottom:18px;padding:18px 22px">
+    <div style="font-size:12.5px;font-weight:700;color:#1a2d4e;margin-bottom:14px">📌 파일 준비 방법 — K-에듀파인에서 내려받기</div>
+    <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+      <div style="background:#1b2a40;color:#fff;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px">
+        <div style="font-size:22px;margin-bottom:5px">🖥️</div>
+        <div style="font-size:12px;font-weight:700">K-에듀파인</div>
+        <div style="font-size:10.5px;color:#9ab4ce;margin-top:2px">접속</div>
+      </div>
+      <div style="color:#4e9af1;font-size:20px;font-weight:700">→</div>
+      <div style="background:#f0f5ff;border:1.5px solid #c3d8f5;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px">
+        <div style="font-size:22px;margin-bottom:5px">📁</div>
+        <div style="font-size:12px;font-weight:700;color:#1a2d4e">사업관리</div>
+        <div style="font-size:10.5px;color:#7a9abf;margin-top:2px">메뉴 클릭</div>
+      </div>
+      <div style="color:#4e9af1;font-size:20px;font-weight:700">→</div>
+      <div style="background:#f0f5ff;border:1.5px solid #c3d8f5;border-radius:10px;padding:12px 16px;text-align:center;min-width:120px">
+        <div style="font-size:22px;margin-bottom:5px">📋</div>
+        <div style="font-size:12px;font-weight:700;color:#1a2d4e">사업관리카드</div>
+        <div style="font-size:10.5px;color:#7a9abf;margin-top:2px">(현액) 선택</div>
+      </div>
+      <div style="color:#4e9af1;font-size:20px;font-weight:700">→</div>
+      <div style="background:#f0f5ff;border:1.5px solid #c3d8f5;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px">
+        <div style="font-size:22px;margin-bottom:5px">⬇️</div>
+        <div style="font-size:12px;font-weight:700;color:#1a2d4e">엑셀 다운로드</div>
+        <div style="font-size:10.5px;color:#7a9abf;margin-top:2px">.xlsx 저장</div>
+      </div>
+      <div style="color:#4e9af1;font-size:20px;font-weight:700">→</div>
+      <div style="background:#e8f5e9;border:1.5px solid #10b981;border-radius:10px;padding:12px 16px;text-align:center;min-width:100px">
+        <div style="font-size:22px;margin-bottom:5px">📤</div>
+        <div style="font-size:12px;font-weight:700;color:#065f46">여기에 업로드</div>
+        <div style="font-size:10.5px;color:#10b981;margin-top:2px">↓ 아래 영역</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 업로드 영역 -->
+  <div id="exec-upload-area" class="card" style="text-align:center;padding:40px 20px;border:2px dashed #c3d8f5;background:#f8faff;cursor:pointer"
+    onclick="document.getElementById('exec-file').click()"
+    ondragover="event.preventDefault();this.style.background='#dbeafe';this.style.borderColor='#4e9af1'"
+    ondragleave="this.style.background='#f8faff';this.style.borderColor='#c3d8f5'"
+    ondrop="event.preventDefault();this.style.background='#f8faff';this.style.borderColor='#c3d8f5';handleDrop(event)">
+    <div style="font-size:38px;margin-bottom:12px">📂</div>
+    <div style="font-size:15px;font-weight:700;color:#1a2d4e;margin-bottom:6px">사업관리카드(현액) 엑셀 파일을 업로드하세요</div>
+    <div style="font-size:12.5px;color:#7a9abf">클릭하거나 파일을 끌어다 놓으세요 (.xlsx)</div>
+    <input type="file" id="exec-file" accept=".xlsx,.xls" style="display:none" onchange="parseExec(this)">
+  </div>
+
+  <!-- 결과 영역 (숨김) -->
+  <div id="exec-result" style="display:none">
+
+    <!-- 요약 타일 -->
+    <div class="g3" id="exec-summary" style="margin-bottom:18px"></div>
+
+    <!-- 원가통계비목별 그래프 -->
+    <div class="card">
+      <h3>원가통계비목별 집행률 <span id="exec-date" style="font-size:11px;color:#7a9abf;font-weight:400;margin-left:8px"></span></h3>
+      <div style="margin-bottom:10px;display:flex;gap:16px;font-size:11.5px">
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#10b981;border-radius:2px;display:inline-block"></span>70% 이상</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#f59e0b;border-radius:2px;display:inline-block"></span>30~70%</span>
+        <span style="display:flex;align-items:center;gap:5px"><span style="width:12px;height:12px;background:#ef4444;border-radius:2px;display:inline-block"></span>30% 미만</span>
+      </div>
+      <div id="exec-bars"></div>
+    </div>
+
+    <!-- 세부사업별 현황 -->
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:9px;border-bottom:2px solid #e8f0fe">
+        <h3 style="margin:0;padding:0;border:none">세부사업별 집행 현황</h3>
+        <button onclick="downloadExecExcel()" style="background:#10b981;color:#fff;border:none;border-radius:7px;padding:7px 15px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:5px">
+          📥 엑셀 다운로드
+        </button>
+      </div>
+      <div style="margin-bottom:10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+        <input type="text" id="exec-search" placeholder="사업명 검색..." oninput="filterExecTable()" style="border:1.5px solid #dde6f5;border-radius:6px;padding:6px 12px;font-size:12px;font-family:inherit;outline:none;width:200px">
+        <label style="font-size:12px;color:#556;display:flex;align-items:center;gap:5px">
+          <input type="checkbox" id="exec-low" onchange="filterExecTable()"> 집행률 30% 미만만 보기
+        </label>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl" id="exec-table" style="min-width:620px">
+          <thead>
+            <tr>
+              <th style="width:28%;text-align:left">세부사업</th>
+              <th style="width:14%">예산현액</th>
+              <th style="width:14%">지급액</th>
+              <th style="width:10%">집행률</th>
+              <th style="width:14%">잔액</th>
+              <th style="width:20%;text-align:left">집행률 게이지</th>
+            </tr>
+          </thead>
+          <tbody id="exec-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 원가통계비목별 현황 -->
+    <div class="card" id="bimok-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding-bottom:9px;border-bottom:2px solid #e8f0fe">
+        <div>
+          <h3 style="margin:0;padding:0;border:none">원가통계비목별 집행 현황</h3>
+          <div style="font-size:12px;color:#7a9abf;margin-top:4px">비목 행 클릭 → 세부 내역 펼치기 · 세부 내역에서 클릭하면 수정 가능</div>
+        </div>
+        <button onclick="downloadBimokExcel()" style="background:#10b981;color:#fff;border:none;border-radius:7px;padding:7px 15px;font-size:12px;font-family:inherit;cursor:pointer;font-weight:700;display:flex;align-items:center;gap:5px;flex-shrink:0">
+          📥 엑셀 다운로드
+        </button>
+      </div>
+      <div id="bimok-table-area"></div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+#exec-upload-area:hover{background:#eef4ff;border-color:#4e9af1}
+.exec-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.exec-bar-label{width:140px;font-size:12px;color:#1a2d4e;font-weight:600;text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.exec-bar-track{flex:1;background:#e8f0fe;border-radius:6px;height:22px;position:relative;overflow:hidden}
+.exec-bar-fill{height:22px;border-radius:6px;display:flex;align-items:center;padding-left:8px;font-size:11px;font-weight:700;color:#fff;transition:width .4s;white-space:nowrap}
+.exec-bar-amt{font-size:11px;color:#556;width:120px;flex-shrink:0;text-align:right}
+.exec-gauge{background:#e8f0fe;border-radius:4px;height:10px;overflow:hidden;min-width:60px}
+.exec-gauge-fill{height:10px;border-radius:4px}
+.exec-tile{background:#fff;border-radius:10px;box-shadow:0 1px 4px rgba(0,0,0,.07);padding:18px;text-align:center}
+.exec-tile .t-big{font-size:28px;font-weight:800;margin-bottom:3px}
+.exec-tile .t-sub{font-size:11px;color:#7a9abf;font-weight:600;margin-bottom:4px}
+.exec-tile .t-lbl{font-size:12px;color:#334}
+.ec{cursor:pointer;position:relative}
+.ec:hover{background:#f0f7ff !important;outline:1px solid #c3d8f5}
+.ec input{width:100%;border:1.5px solid #4e9af1;border-radius:4px;padding:3px 6px;font-size:12px;font-family:inherit;outline:none;background:#fff}
+</style>
+
+<script>
+let execAllRows = [];
+
+function handleDrop(e) {
+  const file = e.dataTransfer.files[0];
+  if (!file) return;
+  parseExec({ files: [file] });
+}
+
+function parseExec(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const wb = XLSX.read(e.target.result, {type:'array'});
+      const ws = wb.Sheets[wb.SheetNames[0]];
+      const data = XLSX.utils.sheet_to_json(ws, {header:1, defval:null});
+      let headerRow = -1;
+      for (let i = 0; i < Math.min(10, data.length); i++) {
+        if (data[i] && data[i].some(c => c && String(c).includes('원가통계비목'))) { headerRow = i; break; }
+      }
+      if (headerRow === -1) { alert('헤더를 찾을 수 없습니다. 사업관리카드(현액) 파일인지 확인해주세요.'); return; }
+      const headers = data[headerRow];
+      const idxBimok  = headers.findIndex(h => h && String(h).includes('원가통계비목'));
+      const idxSaebu  = headers.findIndex(h => h && String(h).includes('세부사업'));
+      const idxSaebuHang = headers.findIndex(h => h && String(h).includes('세부항목'));
+      const idxBudget = headers.findIndex(h => h && String(h).includes('예산현액'));
+      const idxPay    = headers.findIndex(h => h && String(h).includes('지급액'));
+      const idxBal    = headers.findIndex(h => h && String(h).includes('지출잔액'));
+      const rows = [];
+      let lastSaebu = '', lastSaebuHang = '', uid = 0;
+      for (let i = headerRow + 1; i < data.length; i++) {
+        const r = data[i];
+        if (!r) continue;
+        const bimok = r[idxBimok] ? String(r[idxBimok]).trim() : '';
+        if (!bimok || bimok.includes('[')) continue;
+        if (r[idxSaebu]) lastSaebu = String(r[idxSaebu]).trim();
+        if (idxSaebuHang >= 0 && r[idxSaebuHang]) lastSaebuHang = String(r[idxSaebuHang]).trim();
+        const budget = parseFloat(r[idxBudget]) || 0;
+        const pay    = parseFloat(r[idxPay]) || 0;
+        const bal    = parseFloat(r[idxBal]) || 0;
+        if (budget === 0) continue;
+        const rate = budget > 0 ? Math.min((pay / budget * 100), 100) : 0;
+        rows.push({ _id: uid++, saebu: lastSaebu, saebuHang: lastSaebuHang, bimok, budget, pay, bal, rate });
+      }
+      execAllRows = rows;
+      openBimokIds = new Set();
+      renderExec(rows, file.name);
+      document.getElementById('exec-upload-area').style.display = 'none';
+      document.getElementById('exec-result').style.display = 'block';
+    } catch(err) { alert('파일 파싱 오류: ' + err.message); }
+  };
+  reader.readAsArrayBuffer(file);
+}
+
+function renderExec(rows, filename) {
+  const m = (filename||'').match(/(\d{8})/);
+  if (m) { const d = m[1]; document.getElementById('exec-date').textContent = `기준일: ${d.slice(0,4)}.${d.slice(4,6)}.${d.slice(6,8)}.`; }
+  const totalBudget = execAllRows.reduce((s,r) => s + r.budget, 0);
+  const totalPay    = execAllRows.reduce((s,r) => s + r.pay, 0);
+  const totalBal    = execAllRows.reduce((s,r) => s + r.bal, 0);
+  const totalRate   = totalBudget > 0 ? (totalPay / totalBudget * 100) : 0;
+  const lowCount    = execAllRows.filter(r => r.rate < 30).length;
+  const rateColor   = totalRate >= 70 ? '#10b981' : totalRate >= 30 ? '#f59e0b' : '#ef4444';
+  document.getElementById('exec-summary').innerHTML = `
+    <div class="exec-tile" style="border-top:3px solid ${rateColor}">
+      <div class="t-big" style="color:${rateColor}">${totalRate.toFixed(1)}%</div>
+      <div class="t-sub">전체 집행률</div><div class="t-lbl">지급액 / 예산현액</div>
+    </div>
+    <div class="exec-tile" style="border-top:3px solid #4e9af1">
+      <div class="t-big" style="color:#4e9af1;font-size:20px">${fmtWon(totalBudget)}</div>
+      <div class="t-sub">총 예산현액</div><div class="t-lbl">지급액: ${fmtWon(totalPay)}</div>
+    </div>
+    <div class="exec-tile" style="border-top:3px solid #7a9abf">
+      <div class="t-big" style="color:#7a9abf;font-size:20px">${fmtWon(totalBal)}</div>
+      <div class="t-sub">잔액</div><div class="t-lbl">집행률 30% 미만 항목: ${lowCount}개</div>
+    </div>`;
+
+  // 비목별 바
+  const bimokMap = {};
+  execAllRows.forEach(r => {
+    if (!bimokMap[r.bimok]) bimokMap[r.bimok] = {budget:0, pay:0};
+    bimokMap[r.bimok].budget += r.budget;
+    bimokMap[r.bimok].pay    += r.pay;
+  });
+  const bimokArr = Object.entries(bimokMap).map(([k,v]) => ({
+    bimok:k, budget:v.budget, pay:v.pay,
+    rate: v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0
+  })).sort((a,b) => b.rate - a.rate);
+  let barsHtml = '';
+  bimokArr.forEach(b => {
+    const color = b.rate >= 70 ? '#10b981' : b.rate >= 30 ? '#f59e0b' : '#ef4444';
+    barsHtml += `<div class="exec-bar-row">
+      <div class="exec-bar-label" title="${b.bimok}">${b.bimok}</div>
+      <div class="exec-bar-track"><div class="exec-bar-fill" style="width:${b.rate}%;background:${color}">${b.rate>=1?b.rate.toFixed(1)+'%':''}</div></div>
+      <div class="exec-bar-amt">${fmtWon(b.pay)} / ${fmtWon(b.budget)}</div>
+    </div>`;
+  });
+  document.getElementById('exec-bars').innerHTML = barsHtml;
+  renderExecTable(execAllRows);
+  renderBimokTable();
+}
+
+function renderExecTable(rows) {
+  // 세부사업별 집계
+  const saebuMap = {};
+  const saebuOrder = [];
+  rows.forEach(r => {
+    if (!saebuMap[r.saebu]) { saebuMap[r.saebu] = {budget:0,pay:0,bal:0}; saebuOrder.push(r.saebu); }
+    saebuMap[r.saebu].budget += r.budget;
+    saebuMap[r.saebu].pay    += r.pay;
+    saebuMap[r.saebu].bal    += r.bal;
+  });
+  let html = '';
+  saebuOrder.forEach(saebu => {
+    const v = saebuMap[saebu];
+    const rate = v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0;
+    const color = rate >= 70 ? '#10b981' : rate >= 30 ? '#f59e0b' : '#ef4444';
+    const rateStr = rate.toFixed(1) + '%';
+    html += `<tr>
+      <td style="text-align:left">${esc(saebu)}</td>
+      <td style="text-align:right">${fmtAmt(v.budget)}</td>
+      <td style="text-align:right">${fmtAmt(v.pay)}</td>
+      <td style="color:${color};font-weight:700;text-align:center">${rateStr}</td>
+      <td style="text-align:right">${fmtAmt(v.bal)}</td>
+      <td>${gaugeHtml(rate,color,rateStr)}</td>
+    </tr>`;
+  });
+  document.getElementById('exec-tbody').innerHTML = html;
+}
+
+function renderBimokTable() {
+  const bimokMap = {};
+  execAllRows.forEach(r => {
+    if (!bimokMap[r.bimok]) bimokMap[r.bimok] = {budget:0, pay:0, bal:0, rows:[]};
+    bimokMap[r.bimok].budget += r.budget;
+    bimokMap[r.bimok].pay    += r.pay;
+    bimokMap[r.bimok].bal    += r.bal;
+    bimokMap[r.bimok].rows.push(r);
+  });
+  const bimokArr = Object.entries(bimokMap).map(([k,v]) => ({
+    bimok: k, budget: v.budget, pay: v.pay, bal: v.bal,
+    rate: v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0,
+    rows: v.rows
+  })).sort((a,b) => b.rate - a.rate);
+
+  let html = `<div style="overflow-x:auto"><table class="tbl" style="min-width:640px">
+    <thead><tr>
+      <th style="width:5%;text-align:center"></th>
+      <th style="width:20%;text-align:left">원가통계비목</th>
+      <th style="width:14%">예산현액</th>
+      <th style="width:14%">지급액</th>
+      <th style="width:10%">집행률</th>
+      <th style="width:12%">잔액</th>
+      <th style="width:25%;text-align:left">집행률 게이지</th>
+    </tr></thead><tbody>`;
+
+  bimokArr.forEach((b, idx) => {
+    const color = b.rate >= 70 ? '#10b981' : b.rate >= 30 ? '#f59e0b' : '#ef4444';
+    const rateStr = b.rate.toFixed(1) + '%';
+    const bimokId = 'bdt-' + idx;
+    html += `<tr id="${bimokId}-hdr" style="cursor:pointer;background:#f8faff" onclick="toggleBimokDetail('${bimokId}')">
+      <td style="text-align:center;color:#4e9af1;font-size:13px" id="${bimokId}-icon">▶</td>
+      <td style="text-align:left;font-weight:600">${esc(b.bimok)}</td>
+      <td style="text-align:right">${fmtAmt(b.budget)}</td>
+      <td style="text-align:right">${fmtAmt(b.pay)}</td>
+      <td style="text-align:center;color:${color};font-weight:700">${rateStr}</td>
+      <td style="text-align:right">${fmtAmt(b.bal)}</td>
+      <td>${gaugeHtml(b.rate,color,rateStr)}</td>
+    </tr>
+    <tr id="${bimokId}" style="display:none"><td colspan="7" style="padding:0;background:#f0f5ff">
+      <table style="width:100%;font-size:12px;border-collapse:collapse">
+        <thead><tr style="background:#dce8fa">
+          <th style="padding:6px 10px;text-align:left;font-weight:600;width:22%">세부사업</th>
+          <th style="padding:6px 10px;text-align:left;font-weight:600;width:27%">세부항목</th>
+          <th style="padding:6px 10px;text-align:right;font-weight:600;width:15%">예산현액 ✎</th>
+          <th style="padding:6px 10px;text-align:right;font-weight:600;width:15%">지급액 ✎</th>
+          <th style="padding:6px 10px;text-align:center;font-weight:600;width:21%">집행률</th>
+        </tr></thead><tbody>`;
+    b.rows.forEach(r => {
+      const dc = r.rate >= 70 ? '#10b981' : r.rate >= 30 ? '#f59e0b' : '#ef4444';
+      html += `<tr style="border-top:1px solid #dde8f5">
+        <td style="padding:5px 10px;text-align:left">${esc(r.saebu)}</td>
+        <td style="padding:5px 10px;text-align:left">${esc(r.saebuHang)}</td>
+        <td class="ec" style="padding:5px 10px;text-align:right" onclick="startBimokEdit(this,${r._id},'budget')">${fmtAmt(r.budget)}</td>
+        <td class="ec" style="padding:5px 10px;text-align:right" onclick="startBimokEdit(this,${r._id},'pay')">${fmtAmt(r.pay)}</td>
+        <td id="brate-${r._id}" style="padding:5px 10px;text-align:center;color:${dc};font-weight:700">${r.rate.toFixed(1)}%</td>
+      </tr>`;
+    });
+    html += `</tbody></table></td></tr>`;
+  });
+  html += `</tbody></table></div>`;
+  document.getElementById('bimok-table-area').innerHTML = html;
+  restoreOpenBimokRows();
+}
+
+let openBimokIds = new Set();
+
+function toggleBimokDetail(id) {
+  const row = document.getElementById(id);
+  const icon = document.getElementById(id + '-icon');
+  const hdr  = document.getElementById(id + '-hdr');
+  if (!row) return;
+  const isOpen = row.style.display !== 'none';
+  row.style.display = isOpen ? 'none' : 'table-row';
+  if (icon) icon.textContent = isOpen ? '▶' : '▼';
+  if (hdr)  hdr.style.background = isOpen ? '#f8faff' : '#e8f0fe';
+  if (isOpen) openBimokIds.delete(id);
+  else openBimokIds.add(id);
+}
+
+function restoreOpenBimokRows() {
+  openBimokIds.forEach(id => {
+    const row = document.getElementById(id);
+    const icon = document.getElementById(id + '-icon');
+    const hdr  = document.getElementById(id + '-hdr');
+    if (row)  row.style.display = 'table-row';
+    if (icon) icon.textContent = '▼';
+    if (hdr)  hdr.style.background = '#e8f0fe';
+  });
+}
+
+function startBimokEdit(td, rowId, field) {
+  if (td.querySelector('input')) return;
+  const row = execAllRows.find(r => r._id === rowId);
+  if (!row) return;
+  const orig = row[field];
+  const inp = document.createElement('input');
+  inp.type = 'number';
+  inp.value = Math.round(orig);
+  inp.style.cssText = 'width:100%;border:1.5px solid #4e9af1;border-radius:4px;padding:3px 6px;font-size:12px;text-align:right;font-family:inherit;outline:none;background:#fff';
+  td.innerHTML = ''; td.appendChild(inp); inp.focus(); inp.select();
+  function save() {
+    const val = parseFloat(inp.value) || 0;
+    row[field] = val;
+    if (field === 'budget' || field === 'pay') {
+      row.rate = row.budget > 0 ? Math.min(row.pay / row.budget * 100, 100) : 0;
+    }
+    td.textContent = fmtAmt(val);
+    renderExecTable(execAllRows);
+    renderBimokTable();
+  }
+  inp.addEventListener('blur', save);
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); inp.blur(); }
+    if (e.key === 'Escape') { row[field] = orig; td.textContent = fmtAmt(orig); }
+  });
+}
+
+function downloadBimokExcel() {
+  const bimokMap = {};
+  const bimokOrder = [];
+  execAllRows.forEach(r => {
+    if (!bimokMap[r.bimok]) { bimokMap[r.bimok] = {budget:0,pay:0,bal:0,rows:[]}; bimokOrder.push(r.bimok); }
+    bimokMap[r.bimok].budget += r.budget;
+    bimokMap[r.bimok].pay    += r.pay;
+    bimokMap[r.bimok].bal    += r.bal;
+    bimokMap[r.bimok].rows.push(r);
+  });
+  const wb = XLSX.utils.book_new();
+  const aoa = [['원가통계비목','비목_예산현액(원)','비목_지급액(원)','비목_집행률(%)','비목_잔액(원)','세부사업','세부항목','예산현액(원)','지급액(원)','집행률(%)']];
+  bimokOrder.forEach(bimok => {
+    const v = bimokMap[bimok];
+    const rate = v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0;
+    v.rows.forEach((r, i) => {
+      aoa.push([
+        i === 0 ? bimok : '',
+        i === 0 ? Math.round(v.budget) : '',
+        i === 0 ? Math.round(v.pay) : '',
+        i === 0 ? parseFloat(rate.toFixed(1)) : '',
+        i === 0 ? Math.round(v.bal) : '',
+        r.saebu, r.saebuHang,
+        Math.round(r.budget), Math.round(r.pay), parseFloat(r.rate.toFixed(1))
+      ]);
+    });
+  });
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:18},{wch:14},{wch:14},{wch:10},{wch:14},{wch:22},{wch:20},{wch:14},{wch:14},{wch:10}];
+  const numFmt = '#,##0';
+  for (let i = 1; i < aoa.length; i++) {
+    ['B','C','E','H','I'].forEach(col => {
+      const cell = ws[col+(i+1)];
+      if (cell) cell.z = numFmt;
+    });
+  }
+  XLSX.utils.book_append_sheet(wb, ws, '원가통계비목별');
+  XLSX.writeFile(wb, '원가통계비목별집행률.xlsx');
+}
+
+function gaugeHtml(rate,color,rateStr) {
+  return `<div style="display:flex;align-items:center;gap:6px">
+    <div class="exec-gauge" style="flex:1"><div class="exec-gauge-fill" style="width:${rate}%;background:${color}"></div></div>
+    <span style="font-size:11px;color:${color};font-weight:700;width:38px;text-align:right">${rateStr}</span>
+  </div>`;
+}
+
+function startEdit(td, field, rowId) {
+  if (td.querySelector('input')) return;
+  const row = execAllRows.find(r => r._id === rowId);
+  if (!row) return;
+  const isNum = ['budget','pay','bal'].includes(field);
+  const orig  = row[field];
+  const inp   = document.createElement('input');
+  inp.type  = isNum ? 'number' : 'text';
+  inp.value = isNum ? Math.round(orig) : orig;
+  inp.style.textAlign = isNum ? 'right' : 'left';
+  td.innerHTML = ''; td.appendChild(inp); inp.focus(); inp.select();
+
+  function save() {
+    const val = isNum ? (parseFloat(inp.value) || 0) : inp.value.trim();
+    row[field] = val;
+    if (isNum) {
+      row.rate = row.budget > 0 ? Math.min(row.pay / row.budget * 100, 100) : 0;
+      const color   = row.rate >= 70 ? '#10b981' : row.rate >= 30 ? '#f59e0b' : '#ef4444';
+      const rateStr = row.rate.toFixed(1) + '%';
+      const rateCell  = document.getElementById('rate-' + rowId);
+      const gaugeCell = document.getElementById('gauge-' + rowId);
+      if (rateCell)  { rateCell.style.color = color; rateCell.textContent = rateStr; }
+      if (gaugeCell) { gaugeCell.innerHTML = gaugeHtml(row.rate, color, rateStr); }
+      td.textContent = fmtAmt(val);
+    } else {
+      td.textContent = val;
+    }
+    renderExec(execAllRows, '');
+  }
+  inp.addEventListener('blur', save);
+  inp.addEventListener('keydown', e => {
+    if (e.key === 'Enter') { e.preventDefault(); inp.blur(); }
+    if (e.key === 'Escape') { row[field] = orig; inp.blur(); }
+  });
+}
+
+function filterExecTable() {
+  const search  = document.getElementById('exec-search').value.toLowerCase();
+  const lowOnly = document.getElementById('exec-low').checked;
+  // 세부사업별 집계 후 필터 적용
+  const saebuMap = {};
+  const saebuOrder = [];
+  execAllRows.forEach(r => {
+    if (!saebuMap[r.saebu]) { saebuMap[r.saebu] = {budget:0,pay:0,bal:0}; saebuOrder.push(r.saebu); }
+    saebuMap[r.saebu].budget += r.budget;
+    saebuMap[r.saebu].pay    += r.pay;
+    saebuMap[r.saebu].bal    += r.bal;
+  });
+  const filteredSaebu = saebuOrder.filter(saebu => {
+    if (search && !saebu.toLowerCase().includes(search)) return false;
+    if (lowOnly) {
+      const v = saebuMap[saebu];
+      const rate = v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0;
+      if (rate >= 30) return false;
+    }
+    return true;
+  });
+  // 필터된 세부사업만 렌더링
+  const filteredRows = execAllRows.filter(r => filteredSaebu.includes(r.saebu));
+  renderExecTable(filteredRows);
+}
+
+function downloadExecExcel() {
+  // 세부사업별 집계 후 내보내기
+  const saebuMap = {};
+  const saebuOrder = [];
+  execAllRows.forEach(r => {
+    if (!saebuMap[r.saebu]) { saebuMap[r.saebu] = {budget:0,pay:0,bal:0}; saebuOrder.push(r.saebu); }
+    saebuMap[r.saebu].budget += r.budget;
+    saebuMap[r.saebu].pay    += r.pay;
+    saebuMap[r.saebu].bal    += r.bal;
+  });
+  const wb = XLSX.utils.book_new();
+  const aoa = [['세부사업','예산현액(원)','지급액(원)','집행률(%)','잔액(원)']];
+  saebuOrder.forEach(saebu => {
+    const v = saebuMap[saebu];
+    const rate = v.budget > 0 ? Math.min(v.pay/v.budget*100,100) : 0;
+    aoa.push([saebu, Math.round(v.budget), Math.round(v.pay), parseFloat(rate.toFixed(1)), Math.round(v.bal)]);
+  });
+  const ws = XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols'] = [{wch:28},{wch:14},{wch:14},{wch:10},{wch:14}];
+  const numFmt = '#,##0';
+  for (let i = 1; i < aoa.length; i++) {
+    ['B','C','E'].forEach(col => {
+      const cell = ws[col+(i+1)];
+      if (cell) cell.z = numFmt;
+    });
+  }
+  XLSX.utils.book_append_sheet(wb, ws, '세부사업별집행률');
+  XLSX.writeFile(wb, '세부사업별집행률.xlsx');
+}
+
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function fmtWon(n) {
+  if (n >= 100000000) return (n/100000000).toFixed(1) + '억';
+  if (n >= 10000) return Math.round(n/10000) + '만';
+  return n.toLocaleString();
+}
+function fmtAmt(n) { return Math.round(n).toLocaleString() + '원'; }
+</script>
+
+<!-- ===== 예산요구서 ===== -->
+<div id="page-form" class="page">
+  <div class="pg-header">
+    <div class="badge">서식</div>
+    <h2>예산요구서 작성</h2>
+    <p>기본 정보를 입력하고 예산 내역을 작성하면 엑셀·워드 파일로 다운로드할 수 있습니다.</p>
+  </div>
+
+  <div class="fs">
+    <h3>예산 구분</h3>
+    <div class="type-row">
+      <button class="type-btn on" onclick="setType('본예산',this)">본예산</button>
+      <button class="type-btn" onclick="setType('추가경정',this)">추가경정예산</button>
+    </div>
+    <div id="rounds">
+      <button class="round-btn on" onclick="setRound(1,this)">제1회</button>
+      <button class="round-btn" onclick="setRound(2,this)">제2회</button>
+      <button class="round-btn" onclick="setRound(3,this)">제3회</button>
+      <button class="round-btn" onclick="setRound(4,this)">제4회</button>
+    </div>
+  </div>
+
+  <div class="fs">
+    <h3>기본 정보</h3>
+    <div class="ig">
+      <label><span>학교명</span><input type="text" id="f-school" placeholder="○○초등학교"></label>
+      <label><span>제출 부서</span><input type="text" id="f-dept" placeholder="교무부"></label>
+      <label><span>작성자</span><input type="text" id="f-author" placeholder="홍길동"></label>
+      <label><span>작성일</span><input type="date" id="f-date"></label>
+      <label><span>회계연도</span>
+        <select id="f-year"><option>2026학년도</option><option>2025학년도</option><option>2027학년도</option></select>
+      </label>
+      <label><span>제출처</span><input type="text" id="f-to" placeholder="학교장"></label>
+    </div>
+  </div>
+
+  <div class="fs">
+    <h3>예산 내역</h3>
+    <table class="btbl" id="budget-tbl">
+      <thead>
+        <tr>
+          <th style="width:5%">No.</th>
+          <th style="width:18%">사업명</th>
+          <th style="width:25%">산출 근거</th>
+          <th style="width:12%">단가(원)</th>
+          <th style="width:7%">수량</th>
+          <th style="width:13%">합계(원)</th>
+          <th style="width:15%">비목</th>
+          <th style="width:5%">삭제</th>
+        </tr>
+      </thead>
+      <tbody id="budget-body"></tbody>
+      <tfoot>
+        <tr class="tr-total">
+          <td colspan="5" style="text-align:right;padding-right:12px;font-weight:700">합 계</td>
+          <td id="total-cell" class="nc">0</td>
+          <td colspan="2"></td>
+        </tr>
+      </tfoot>
+    </table>
+    <div class="btn-row">
+      <button class="btn btn-add" onclick="addRow()">+ 항목 추가</button>
+      <button class="btn btn-reset" onclick="resetForm()">초기화</button>
+    </div>
+  </div>
+
+  <div class="total-display">
+    <span class="lbl">총 요구 예산액</span>
+    <span class="amt" id="total-amount">0 원</span>
+  </div>
+
+  <div class="fs" style="margin-top:18px">
+    <h3>다운로드</h3>
+    <div class="btn-row">
+      <button class="btn btn-xl" onclick="downloadExcel()">📊 Excel 다운로드 (.xlsx)</button>
+      <button class="btn btn-doc" onclick="downloadDocx()">📄 Word 다운로드 (.docx)</button>
+    </div>
+    <p style="font-size:11.5px;color:#999;margin-top:9px">※ Word 파일은 한글(HWP)에서 파일 열기로 불러올 수 있습니다.</p>
+  </div>
+</div>
+
+</div>
+
+<script>
+function go(id,el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('#sidebar nav a').forEach(a=>a.classList.remove('on'));
+  document.getElementById('page-'+id).classList.add('on');
+  el.classList.add('on');
+  window.scrollTo(0,0);
+}
+function toggleAcc(hd){
+  const body=hd.nextElementSibling;
+  const open=body.classList.contains('open');
+  hd.classList.toggle('open',!open);
+  body.classList.toggle('open',!open);
+}
+
+let budgetType='본예산',roundNum=1,rowIdx=0;
+function setType(t,el){
+  budgetType=t;
+  document.querySelectorAll('.type-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('rounds').classList.toggle('show',t==='추가경정');
+}
+function setRound(n,el){
+  roundNum=n;
+  document.querySelectorAll('.round-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on');
+}
+function getBudgetLabel(){
+  return budgetType==='본예산'?'본예산':`추가경정예산(${roundNum}회)`;
+}
+document.getElementById('f-date').valueAsDate=new Date();
+
+function addRow(){
+  rowIdx++;
+  const idx=rowIdx;
+  const tr=document.createElement('tr');
+  tr.id='row-'+idx;
+  tr.innerHTML=`
+    <td style="text-align:center;color:#7a9abf;font-weight:600">${idx}</td>
+    <td><input type="text" placeholder="사업명"></td>
+    <td><input type="text" placeholder="산출 근거"></td>
+    <td><input type="number" min="0" step="100" placeholder="0" oninput="calcRow(this,${idx})"></td>
+    <td><input type="number" min="0" step="1" value="1" oninput="calcRow(this,${idx})"></td>
+    <td class="nc" id="sub-${idx}">0</td>
+    <td><input type="text" placeholder="교육운영비"></td>
+    <td style="text-align:center"><button onclick="delRow(${idx})" style="background:#fee2e2;border:none;border-radius:4px;color:#dc2626;cursor:pointer;padding:3px 8px;font-size:11px">✕</button></td>`;
+  document.getElementById('budget-body').appendChild(tr);
+  calcTotal();
+}
+function calcRow(inp,idx){
+  const row=document.getElementById('row-'+idx);
+  const inputs=row.querySelectorAll('input[type=number]');
+  const price=parseFloat(inputs[0].value)||0;
+  const qty=parseFloat(inputs[1].value)||0;
+  document.getElementById('sub-'+idx).textContent=(price*qty).toLocaleString();
+  calcTotal();
+}
+function calcTotal(){
+  let total=0;
+  document.querySelectorAll('[id^="sub-"]').forEach(cell=>{
+    total+=(parseInt(cell.textContent.replace(/,/g,''))||0);
+  });
+  document.getElementById('total-cell').textContent=total.toLocaleString();
+  document.getElementById('total-amount').textContent=total.toLocaleString()+' 원';
+}
+function delRow(idx){const r=document.getElementById('row-'+idx);if(r)r.remove();calcTotal();}
+function resetForm(){
+  if(!confirm('모든 입력 내용을 초기화하시겠습니까?'))return;
+  document.getElementById('budget-body').innerHTML='';
+  rowIdx=0;calcTotal();
+  ['f-school','f-dept','f-author','f-to'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('f-date').valueAsDate=new Date();
+}
+function getFormData(){
+  const rows=[];
+  document.querySelectorAll('#budget-body tr').forEach(tr=>{
+    const inputs=tr.querySelectorAll('input');
+    const sub=tr.querySelector('[id^="sub-"]');
+    rows.push({name:inputs[0]?.value||'',basis:inputs[1]?.value||'',price:inputs[2]?.value||'0',qty:inputs[3]?.value||'1',sub:sub?.textContent||'0',cat:inputs[4]?.value||''});
+  });
+  return{
+    school:document.getElementById('f-school').value||'학교명',
+    dept:document.getElementById('f-dept').value||'부서명',
+    author:document.getElementById('f-author').value||'작성자',
+    date:document.getElementById('f-date').value||'',
+    year:document.getElementById('f-year').value,
+    to:document.getElementById('f-to').value||'학교장',
+    label:getBudgetLabel(),rows,
+    total:document.getElementById('total-amount').textContent
+  };
+}
+function downloadExcel(){
+  const d=getFormData();
+  const wb=XLSX.utils.book_new();
+  const title=`${d.year} ${d.label} 예산요구서`;
+  const aoa=[
+    [title],[],[`학교명: ${d.school}`,`부서: ${d.dept}`,`작성자: ${d.author}`,`작성일: ${d.date}`],
+    [`회계연도: ${d.year}`,`예산구분: ${d.label}`,`제출처: ${d.to}`],[],
+    ['No.','사업명','산출 근거','단가(원)','수량','합계(원)','비목'],
+  ];
+  d.rows.forEach((r,i)=>{
+    aoa.push([i+1,r.name,r.basis,parseInt(r.price)||0,parseInt(r.qty)||0,parseInt(r.sub.replace(/,/g,''))||0,r.cat]);
+  });
+  aoa.push([]);
+  aoa.push(['','','','','합계',parseInt(document.getElementById('total-cell').textContent.replace(/,/g,''))||0,'']);
+  const ws=XLSX.utils.aoa_to_sheet(aoa);
+  ws['!cols']=[{wch:5},{wch:20},{wch:28},{wch:14},{wch:7},{wch:16},{wch:16}];
+  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:6}}];
+  XLSX.utils.book_append_sheet(wb,ws,'예산요구서');
+  XLSX.writeFile(wb,`${d.school}_${d.year}_${d.label}_예산요구서.xlsx`);
+}
+async function downloadDocx(){
+  const d=getFormData();
+  const title=`${d.year} ${d.label} 예산요구서`;
+  let rowsXml='';
+  d.rows.forEach((r,i)=>{
+    rowsXml+=`<w:tr><w:tc><w:tcPr><w:tcW w:w="400" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:t>${i+1}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${r.name}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${r.basis}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:jc w:val="right"/></w:pPr><w:r><w:t>${(parseInt(r.price)||0).toLocaleString()}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="600" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:t>${r.qty}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/></w:tcPr><w:p><w:pPr><w:jc w:val="right"/></w:pPr><w:r><w:t>${r.sub}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/></w:tcPr><w:p><w:r><w:t>${r.cat}</w:t></w:r></w:p></w:tc></w:tr>`;
+  });
+  const total=document.getElementById('total-cell').textContent;
+  const docXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:pPr><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr></w:pPr><w:r><w:rPr><w:b/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr><w:t>${title}</w:t></w:r></w:p><w:p><w:r><w:t/></w:r></w:p><w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="8500" w:type="dxa"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders></w:tblPr><w:tr><w:tc><w:tcPr><w:tcW w:w="4250" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>학교명: ${d.school}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2125" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>부서: ${d.dept}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2125" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>작성자: ${d.author}</w:t></w:r></w:p></w:tc></w:tr><w:tr><w:tc><w:tcPr><w:tcW w:w="4250" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>회계연도: ${d.year}  구분: ${d.label}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2125" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>작성일: ${d.date}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2125" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="D9E1F2"/></w:tcPr><w:p><w:r><w:rPr><w:b/></w:rPr><w:t>제출처: ${d.to}</w:t></w:r></w:p></w:tc></w:tr></w:tbl><w:p><w:r><w:t/></w:r></w:p><w:tbl><w:tblPr><w:tblStyle w:val="TableGrid"/><w:tblW w:w="8500" w:type="dxa"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders></w:tblPr><w:tr><w:tc><w:tcPr><w:tcW w:w="400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:pPr><w:jc w:val="center"/></w:pPr><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>No.</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>사업명</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>산출 근거</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1100" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>단가(원)</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="600" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>수량</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>합계(원)</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="1B2A40"/></w:tcPr><w:p><w:r><w:rPr><w:b/><w:color w:val="FFFFFF"/></w:rPr><w:t>비목</w:t></w:r></w:p></w:tc></w:tr>${rowsXml}<w:tr><w:tc><w:tcPr><w:tcW w:w="5700" w:type="dxa"/><w:gridSpan w:val="5"/><w:shd w:val="clear" w:color="auto" w:fill="EEF2FF"/></w:tcPr><w:p><w:pPr><w:jc w:val="right"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>합 계</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="EEF2FF"/></w:tcPr><w:p><w:pPr><w:jc w:val="right"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>${total.replace(' 원','')}</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1400" w:type="dxa"/><w:shd w:val="clear" w:color="auto" w:fill="EEF2FF"/></w:tcPr><w:p><w:r><w:t/></w:r></w:p></w:tc></w:tr></w:tbl><w:p><w:r><w:t/></w:r></w:p><w:p><w:pPr><w:jc w:val="right"/></w:pPr><w:r><w:t>${d.date}  ${d.dept} ${d.author} (인)</w:t></w:r></w:p><w:sectPr><w:pgSz w:w="12240" w:h="15840"/><w:pgMar w:top="1080" w:right="900" w:bottom="1080" w:left="900" w:header="720" w:footer="720" w:gutter="0"/></w:sectPr></w:body></w:document>`;
+  const stylesXml=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><w:styles xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="맑은 고딕" w:hAnsi="맑은 고딕" w:cs="맑은 고딕"/><w:sz w:val="22"/><w:szCs w:val="22"/></w:rPr></w:rPrDefault></w:docDefaults><w:style w:type="table" w:styleId="TableGrid"><w:name w:val="Table Grid"/><w:tblPr><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders></w:tblPr></w:style></w:styles>`;
+  const ct=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/></Types>`;
+  const rels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`;
+  const docRels=`<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>`;
+  const zip=new JSZip();
+  zip.file('[Content_Types].xml',ct);
+  zip.folder('_rels').file('.rels',rels);
+  const word=zip.folder('word');
+  word.file('document.xml',docXml);
+  word.file('styles.xml',stylesXml);
+  word.folder('_rels').file('document.xml.rels',docRels);
+  const blob=await zip.generateAsync({type:'blob',mimeType:'application/vnd.openxmlformats-officedocument.wordprocessingml.document'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`${d.school}_${d.year}_${d.label}_예산요구서.docx`;
+  a.click();URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
